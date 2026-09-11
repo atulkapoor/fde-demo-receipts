@@ -1,0 +1,9 @@
+session_id: 0009-eval_owner
+respondent:
+  role: eval_owner
+  name: Atul Kapoor
+facts:
+- dimension: cheap_path_coverage
+  value: 0.33
+  provenance: interview
+  kind: requirement

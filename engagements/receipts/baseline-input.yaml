@@ -1,0 +1,8 @@
+volume: {value: 850, unit: receipts/month, definition: "receipts submitted for reimbursement (demo scenario figure, labelled simulated in the demo README)"}
+cycle_time_per_unit_seconds: {value: 180, unit: s, definition: "submission to keyed-in, per receipt, hand-keying (scenario)"}
+labour_hours_per_week: {value: 20, unit: h/week, definition: "finance assistant keying time (scenario)"}
+rework_rate: {value: 0.08, unit: ratio, definition: "entries corrected after posting (scenario)"}
+exception_rate: {value: 0.05, unit: ratio, definition: "receipts routed to a person for judgement (scenario)"}
+error_rate: {value: 0.03, unit: ratio, definition: "wrong company, date or total posted (scenario)"}
+business_metric: {value: 6, unit: days, definition: "mean days from submission to reimbursement (scenario)"}
+sampled: {n: 40, method: "demo engagement on the public SROIE corpus; operational figures are a stated scenario, extraction ground truth is the dataset's human annotation"}

@@ -1,0 +1,8 @@
+data_access:
+  note: 'sqlite receipts.db: SELECT returned 626 real rows (SROIE receipts, id/company/date/address/total/ocr_text)'
+  at: '2026-09-10'
+security_review:
+  note: 'self-review for the public demo: all data local (sqlite + files), no egress,
+    no credentials, boundary asserted in emitted code; a client engagement gets the
+    client''s security function'
+  at: '2026-09-10'

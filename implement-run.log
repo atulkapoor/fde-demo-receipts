@@ -1,0 +1,5 @@
+round 1: red (5 file(s) changed)
+round 2: red -- green golden, red holdout -- the golden file may have been memorized; not accepting this
+
+stopped by: holdout red. Log: ops/implement-log.md
+exit: 1

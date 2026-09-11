@@ -1,0 +1,8 @@
+dataset/
+venv/
+project/
+engagement-prep/
+__pycache__/
+engagements/receipts/artifacts/pairs.jsonl
+engagements/receipts/artifacts/holdout.jsonl
+baseline.yaml

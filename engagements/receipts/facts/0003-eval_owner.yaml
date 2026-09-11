@@ -1,0 +1,33 @@
+session_id: 0003-eval_owner
+respondent:
+  role: eval_owner
+  name: Atul Kapoor
+facts:
+- dimension: output_shape
+  value: structured
+  provenance: interview
+  kind: requirement
+- dimension: query_pattern
+  value: lookup
+  provenance: interview
+  kind: requirement
+- dimension: corpus_size
+  value: 626
+  provenance: interview
+  kind: requirement
+- dimension: interpretability_required
+  value: false
+  provenance: interview
+  kind: requirement
+- dimension: sensitivity_present
+  value: false
+  provenance: interview
+  kind: requirement
+- dimension: arrival_rate
+  value: 40
+  provenance: interview
+  kind: requirement
+- dimension: recall_span
+  value: within_turn
+  provenance: interview
+  kind: requirement

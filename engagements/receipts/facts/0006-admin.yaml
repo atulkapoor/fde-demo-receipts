@@ -1,0 +1,25 @@
+session_id: 0006-admin
+respondent:
+  role: admin
+  name: Atul Kapoor
+facts:
+- dimension: confidence_calibrated
+  value: false
+  provenance: interview
+  kind: requirement
+- dimension: container_competence
+  value: false
+  provenance: interview
+  kind: environment
+- dimension: existing_cluster
+  value: false
+  provenance: interview
+  kind: environment
+- dimension: external_systems
+  value: 1
+  provenance: interview
+  kind: requirement
+- dimension: provisioning_api
+  value: false
+  provenance: interview
+  kind: environment

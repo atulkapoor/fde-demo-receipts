@@ -1,0 +1,15 @@
+session_id: 0004-samples
+respondent:
+  role: system
+  name: null
+facts:
+- dimension: output_shape
+  value: structured
+  provenance: artifact
+  kind: requirement
+  source: sample pairs
+- dimension: sensitivity_present
+  value: true
+  provenance: artifact
+  kind: requirement
+  source: sample pairs

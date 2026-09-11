@@ -1,0 +1,13 @@
+session_id: 0007-user
+respondent:
+  role: user
+  name: Atul Kapoor
+facts:
+- dimension: human_waiting
+  value: 'yes'
+  provenance: interview
+  kind: requirement
+- dimension: latency_budget_ms
+  value: 30000
+  provenance: interview
+  kind: requirement

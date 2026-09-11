@@ -1,0 +1,22 @@
+session_id: 0001-frame
+respondent:
+  role: system
+  name: null
+facts:
+- dimension: input_format
+  value: scanned_documents
+  provenance: artifact
+  kind: requirement
+  span:
+  - 46
+  - 53
+  source: statement
+  additive: true
+- dimension: labelled_count
+  value: 626
+  provenance: artifact
+  kind: requirement
+  span:
+  - 71
+  - 74
+  source: statement
