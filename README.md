@@ -60,7 +60,35 @@ venv/bin/fde implement project --holdout engagements/receipts/artifacts/holdout.
 The recorded interview answers, the baseline, and the implement round logs
 are all in this repository (`engagements/`, `implement-run*.log`).
 
-## Where it stopped, and why — Ollama needed for the rest
+## The model path, measured (added after Ollama arrived)
+
+The flipped architecture ran against a local model — `qwen3:0.6b`, the
+smallest one on the machine, deliberately: measure first, upgrade on
+evidence. Same 84-case exam, same 30 unseen receipts:
+
+| Path | Golden | Holdout (unseen) |
+|---|---|---|
+| Rules, agent-tuned to plateau | 73.8% | 33.3% |
+| Model (qwen3:0.6b), agent-built pipeline | 72.6% | **50.0%** |
+
+Two findings the numbers force:
+
+1. **The visible tie is an illusion.** Equal golden scores, but the rules
+   collapse on unseen receipts while the model holds half — the rules'
+   score was substantially memorized structure, the model's is mostly
+   capability. The holdout, again, is the only place truth lives.
+2. **The loop refused to flatter the model either.** Seven bounded
+   rounds, a plateau at 72.6%, never the 85% bar — recorded as the
+   measured ceiling of a 0.6B extractor on noisy OCR, and the honest,
+   evidence-backed case for the next model size up. (Published
+   benchmarks agree: sub-1B models sit exactly at this conditional
+   boundary for structured extraction.)
+
+This run also improved the framework twice more: an agent round that
+outlives its budget is now a round result with `--agent-timeout`, never
+a traceback, and the emitted judge learned to speak discrete verdicts.
+
+## Where it stopped originally — before Ollama arrived
 
 The flipped architecture calls a model, and the engagement's boundary says
 data cannot leave — so the emitted `app/llm.py` refuses hosted APIs and
