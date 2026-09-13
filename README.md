@@ -110,6 +110,36 @@ venv/bin/fde implement project --holdout engagements/receipts/artifacts/holdout.
 # fde retro after the measurement window
 ```
 
+## Transcripts, verbatim
+
+The refusal that starts the story — `fde build` before the gates:
+
+```
+[hard] data_access: Credentials have not been shown to work against real data.
+    -> Get a connection that returns real rows, even a handful, then record it:
+       `fde data-access <eng> --note "what returned rows"`. Promised access is not access.
+...
+refused: gates above are unsatisfied. Soft gates take `fde waive <gate> --reason`;
+data access has no workaround, only credentials that return real rows.
+```
+
+The flip, as the decision record wrote it — one measured number ruled the
+old choice out, by name:
+
+```
+**representation**
+- `deterministic` -- ruled out by cheap_path_coverage < 0.95
+```
+
+And the model path's honest end — the loop refusing to call 72.6% done:
+
+```
+round 7: red
+
+stopped by: round cap. Log: ops/implement-log.md
+exit: 1
+```
+
 ## Honesty notes
 
 - The operational baseline figures (volume, cycle time, labour hours) are a
