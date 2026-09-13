@@ -77,18 +77,34 @@ evidence. Same 84-case exam, same 30 unseen receipts:
 | Rules, agent-tuned to plateau | 73.8% | 33.3% |
 | Model (qwen3:0.6b), agent-built pipeline | 72.6% | **50.0%** |
 
-Two findings the numbers force:
+Then the agent did something better than passing: **it audited its own
+exam and proved the exam caps below the bar.** Its analysis
+([`project/ops/golden-ceiling.md`](project/ops/golden-ceiling.md)) claims
+23 of the 84 golden cases carry label values that do not exist verbatim in
+their own OCR input — SROIE's annotations reassemble addresses differently
+than the scans read. We re-derived the claim independently, byte by byte:
+**confirmed.** Under the copy-only injection defence (no invented values,
+ever), the provable optima are 61/84 golden and 17/30 holdout. Recompute
+the table against what is achievable:
 
-1. **The visible tie is an illusion.** Equal golden scores, but the rules
-   collapse on unseen receipts while the model holds half — the rules'
-   score was substantially memorized structure, the model's is mostly
-   capability. The holdout, again, is the only place truth lives.
-2. **The loop refused to flatter the model either.** Seven bounded
-   rounds, a plateau at 72.6%, never the 85% bar — recorded as the
-   measured ceiling of a 0.6B extractor on noisy OCR, and the honest,
-   evidence-backed case for the next model size up. (Published
-   benchmarks agree: sub-1B models sit exactly at this conditional
-   boundary for structured extraction.)
+| Path | Golden, of achievable | Holdout, of achievable |
+|---|---|---|
+| Rules | 62/61 — past the optimum only by *transforming* text, which is what the injection defence forbids | 10/17 (59%) |
+| Model (qwen3:0.6b) | **61/61 — the exam's maximum** | **15/17 (88%)** |
+
+Three findings the corrected numbers force:
+
+1. **The model didn't plateau — it maxed the exam.** Seven rounds ended
+   at the provable optimum, and the loop's refusal to call that "done"
+   was the exam's defect, not the model's.
+2. **The holdout still separates them.** 88% vs 59% of achievable on
+   receipts neither ever saw: the rules memorized structure, the model
+   generalized.
+3. **A canonical benchmark's ground truth disagrees with its own inputs
+   in ~27% of sampled cases** — surfaced by an exact-match exam, claimed
+   by the implementing agent, verified independently. This is
+   `ops/diagnosis.md` §1 (a definitions problem wearing a model-error
+   costume) happening on a famous public dataset.
 
 This run also improved the framework twice more: an agent round that
 outlives its budget is now a round result with `--agent-timeout`, never
@@ -159,3 +175,9 @@ exit: 1
 - Scoring is `field_exact_match` on OCR'd text — an unforgiving metric on
   noisy receipts, chosen because it is the framework's default for
   structured output, not because it flatters the numbers.
+- "No data is redistributed" needs precision after committing the
+  deliverable: the corpus is not included and regenerates from the public
+  mirror, but individual receipt texts do appear inside the committed
+  project — the adversarial probe and the few-shot examples the agent
+  chose. SROIE is a public research corpus of shop receipts; nothing
+  personal, and the claim now says exactly what is true.
