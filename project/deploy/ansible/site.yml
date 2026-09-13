@@ -1,0 +1,28 @@
+# Chosen because this is what the team already operates. They maintain
+# it after the engagement ends, and the tool they cannot maintain is
+# the one that rots.
+- name: Deploy the application
+  hosts: app
+  become: true
+  tasks:
+    - name: Create the service account
+      ansible.builtin.user:
+        name: app
+        system: true
+    - name: Install the application
+      ansible.builtin.copy:
+        src: ../../app
+        dest: /opt/app/
+        owner: app
+    - name: Install the service unit
+      ansible.builtin.copy:
+        src: ../systemd/app.service
+        dest: /etc/systemd/system/app.service
+      notify: restart app
+  handlers:
+    - name: restart app
+      ansible.builtin.systemd:
+        name: app
+        state: restarted
+        daemon_reload: true
+        enabled: true

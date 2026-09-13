@@ -1,6 +1,9 @@
 dataset/
 venv/
-project/
+project/evals/golden.jsonl
+project/evals/edge_case.jsonl
+project/evals/retrieval_cases.jsonl
+project/.implement/
 engagement-prep/
 __pycache__/
 engagements/receipts/artifacts/pairs.jsonl
