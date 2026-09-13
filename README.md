@@ -1,5 +1,7 @@
 # fde-demo-receipts
 
+> **The deliverable is in this repo**: [`project/`](project/) — the emitted, implemented, deployable output (pipeline service, deploy assets, runbooks, evals, ARCHITECTURE.md, RISKS.md). Start at [`project/README.md`](project/README.md).
+
 A complete engagement run through [fde-framework](https://github.com/atulkapoor/fde-framework)
 on real data — 626 scanned retail receipts from the public
 [SROIE](https://github.com/zzzDavid/ICDAR-2019-SROIE) corpus (ICDAR 2019),
