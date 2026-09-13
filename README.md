@@ -57,6 +57,12 @@ venv/bin/fde implement project --holdout engagements/receipts/artifacts/holdout.
   --max-rounds 6 --check "python evals/harness.py --min-score 0.85"
 ```
 
+**The deliverable itself is committed under [`project/`](project/)** — the
+emitted, agent-implemented production output: `app/` at its measured
+72.6/50.0 state, `deploy/`, `ops/` (runbook, diagnosis walk, SLOs),
+`ARCHITECTURE.md` with every rejection, `RISKS.md` with the waiver. Only
+the case files regenerate (they embed dataset text).
+
 The recorded interview answers, the baseline, and the implement round logs
 are all in this repository (`engagements/`, `implement-run*.log`).
 
