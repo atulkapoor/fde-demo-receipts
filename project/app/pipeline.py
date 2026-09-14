@@ -279,4 +279,51 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    # Post-measurement ops hardening (fde-framework 0.1.11 backport, after
+    # the measured runs): the agent's stdin worker below is kept for queue
+    # use (pipe a JSONL through `python -m app.pipeline --stdin`), but the
+    # service unit needs a process that serves -- a module reading a stdin
+    # systemd never connects exits 0 silently and Restart=on-failure never
+    # restarts it.
+    import os as _os
+    import sys as _sys
+
+    if "--stdin" in _sys.argv:
+        raise SystemExit(main())
+
+    import json as _json
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    class _Handler(BaseHTTPRequestHandler):
+        def _send(self, code, body):
+            data = _json.dumps(body, default=str).encode()
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+        def do_GET(self):
+            if self.path == "/health":
+                self._send(200, {"status": "ok"})
+            else:
+                self._send(404, {"error": "POST / with a JSON payload"})
+
+        def do_POST(self):
+            length = int(self.headers.get("Content-Length", 0))
+            try:
+                payload = _json.loads(self.rfile.read(length) or b"null")
+            except ValueError:
+                self._send(400, {"error": "body is not JSON"})
+                return
+            try:
+                self._send(200, {"result": run(payload)})
+            except RefusedInput as refusal:
+                self._send(422, {"refused": str(refusal)})
+
+        def log_message(self, fmt, *args):
+            print(fmt % args)
+
+    port = int(_os.environ.get("PORT", "8080"))
+    print(f"serving on :{port} -- /health, POST /")
+    HTTPServer(("0.0.0.0", port), _Handler).serve_forever()
