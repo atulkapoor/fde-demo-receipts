@@ -21,4 +21,11 @@ jobs:
       # well on golden and badly on adversarial is visible in this
       # step's own output rather than averaged away.
       - name: Evaluate
-        run: python evals/harness.py --min-score 0.0
+        # Public mirror: the exam files are excluded on purpose (the
+        # client's pairs never ship). In a real delivery this step gates.
+        run: |
+          if [ -s evals/golden.jsonl ]; then
+            python evals/harness.py --min-score 0.0
+          else
+            echo "public mirror: exam files excluded -- evaluation skipped (see README)"
+          fi

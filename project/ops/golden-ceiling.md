@@ -1,3 +1,11 @@
+> *Maintainer note (post-audit, 2026-09-14): this document is the
+> implementing agent's own analysis, committed verbatim. Two corrections
+> from the independent re-audit: "CI gates the golden layer at 85%" below
+> refers to the engagement's implement bar — the committed public-mirror
+> workflow intentionally runs at 0.0 and skips when the (never-shipped)
+> exam files are absent; and the holdout ceiling it derives (16/30) is
+> its stricter copy-rule bound — the metric-level bound is 17/30.*
+
 # The golden set caps below the gate
 
 CI gates the golden layer at 85%. The pipeline scores **72.6% (61/84)**, and

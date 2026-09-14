@@ -86,8 +86,10 @@ exam and proved the exam caps below the bar.** Its analysis
 their own OCR input — SROIE's annotations reassemble addresses differently
 than the scans read. We re-derived the claim independently, byte by byte:
 **confirmed.** Under the copy-only injection defence (no invented values,
-ever), the provable optima are 61/84 golden and 17/30 holdout. Recompute
-the table against what is achievable:
+ever), the metric-level optima are 61/84 golden and 17/30 holdout
+(verbatim-substring bound; the implementation's own audit derives 16/30
+under its stricter copy rules — either way the model's 15 sits at 88–94%
+of achievable). Recompute the table against what is achievable:
 
 | Path | Golden, of achievable | Holdout, of achievable |
 |---|---|---|
@@ -177,6 +179,15 @@ exit: 1
 - Scoring is `field_exact_match` on OCR'd text — an unforgiving metric on
   noisy receipts, chosen because it is the framework's default for
   structured output, not because it flatters the numbers.
+- **Holdout scope, precisely**: the holdout was never shown to the
+  implementing agent during the loop. The shipped audit document
+  (`project/ops/golden-ceiling.md`) examined both files post-hoc, and one
+  implementation constant (`LINE_CHARS`) was verified against both — so
+  the honest claim is "held out from the agent", not "never examined by
+  anyone". The audit quotes holdout values; that is disclosed here.
+- **The model's 15/30 sits exactly on the harness's 0.5 holdout floor** —
+  a framework constant since v0.1.7, not a bar tuned for this repo. One
+  more miss and the loop would have printed "memorized".
 - "No data is redistributed" needs precision after committing the
   deliverable: the corpus is not included and regenerates from the public
   mirror, but individual receipt texts do appear inside the committed

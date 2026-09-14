@@ -1,0 +1,10 @@
+round 1: red (2 file(s) changed)
+round 2: red (1 file(s) changed)
+round 3: red
+round 4: red (1 file(s) changed)
+round 5: red
+round 6: red (2 file(s) changed)
+round 7: red
+
+stopped by: round cap. Log: ops/implement-log.md
+exit: 1
