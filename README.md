@@ -37,6 +37,47 @@ Using the product honestly found and shipped two releases the same day:
   then overstates ("memorized") what is sometimes just "not finished" —
   the verdict should be relative to the golden score.
 
+## Rebuilt on the 0.1.27 emitter (2026-09-20)
+
+The deliverable under [`project/`](project/) is the measured artefact of
+the 0.1.8-era emitter and stays as it was; the framework's scorecard
+cannot even read it (no tests, no exam record, no environment file --
+those did not exist then). The same recorded engagement was built again
+on **0.1.27** as [`project-0.1.27/`](project-0.1.27/) and driven through
+the implement loop with the local model available (`qwen3:0.6b` through
+Ollama), the holdout attached, the bar at 85% as in the original run.
+
+| Round | What happened |
+|---|---|
+| 1 | Red: 77 golden cases errored -- the emitted OCR perception is a scaffold, and the receipts arrive as text. The agent rewrote perception to read the text. |
+| 2 to 4 | Red at 81.8% golden against an 85% bar; the agent reworked the field mapper each round. |
+| 5 | Red: own tests -- the round left a lint error, which the deliverable's own tests now catch. Round cap. |
+
+`fde scorecard project-0.1.27 --holdout ...` on the project as the loop
+left it: **17 of 22 measured properties hold**
+([`project-0.1.27/SCORECARD.md`](project-0.1.27/SCORECARD.md)).
+
+| Row | Measured |
+|---|---|
+| Golden, 77 cases | 81.8% |
+| Edge cases, 7 | 85.7% |
+| Adversarial probes, 10 | 100%, none followed |
+| **Holdout, 30 cases never shipped** | **56.7%** |
+| Generalisation gap | 25 points |
+| Beats the baseline error rate | no: the stated baseline records 3% first-pass error, a 97% bar |
+| Own tests and lint | red, one lint finding left by the last round |
+| The edge | boots, refuses forged identities and results, answers a valid request with the mapped record |
+
+The reading: the original 0.1.8 run ended with a holdout that refused an
+overfit implementation and a plateau that flipped the design to a model;
+this rebuild, with a 0.6-billion-parameter model and a text mapper,
+lands below the bar the engagement set and well below the stated human
+first-pass accuracy, and the card says so on four rows. What the rebuild
+adds is everything around the number: the exam record with every
+digest, the request contract, a booted edge that refuses what it should,
+and a loop whose fence now covers the tests and the contract and whose
+own-tests floor is what stopped the last round.
+
 ## Reproduce it
 
 Everything regenerates from public sources — no data is redistributed here.

@@ -1,0 +1,74 @@
+"""integration: direct-call, via plain-python.
+
+Direct call: external_systems < 2
+
+One system, called directly. A registry for a single endpoint is ceremony, and
+adding it before there is a second caller is the tidiness that costs an
+engagement a week.
+
+What does not get skipped: a mutative call still needs a key so a retry cannot
+happen twice, and it still needs a timeout. Those are cheap here and expensive
+to add once something is in production and occasionally double-charging.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from collections.abc import Callable
+from typing import Any
+
+from app.ledger import LEDGER
+
+DEFAULT_TIMEOUT_SECONDS = 10.0
+
+
+class Integration:
+    """ToolBoundary, as direct-call."""
+
+    interface = "ToolBoundary"
+    approach = "direct-call"
+    stack = "plain-python"
+
+    def __init__(
+        self,
+        call: Callable[..., Any] | None = None,
+        mutative: bool = True,
+        timeout: float = DEFAULT_TIMEOUT_SECONDS,
+    ) -> None:
+        self._call = call
+        # Assumed to change something. Guessing wrong this way costs a key
+        # nobody needed; the other way costs a duplicate.
+        self.mutative = mutative
+        self.timeout = timeout
+        self._seen: dict[str, Any] = {}
+
+    def run(self, payload: dict[str, Any]) -> dict[str, Any]:
+        """Envelope in, envelope out. The call's arguments travel under
+        `arguments`; a request carrying none asks for nothing outward."""
+        arguments = payload.get("arguments")
+        if arguments is None:
+            return payload
+        if self._call is None:
+            raise NotImplementedError("wire call= to the external system's client")
+        if not self.mutative:
+            return {**payload, "integration": {"result": self._call(**arguments)}}
+
+        key = payload.get("idempotency_key") or self.key_for(arguments)
+        earlier = LEDGER.reserve(key, LEDGER.key_for(arguments))
+        if earlier is not None:
+            return {**payload, "integration": {"result": earlier.get("outcome"),
+                                               "duplicate": True, "key": key}}
+        result = self._call(**arguments, timeout=self.timeout)
+        LEDGER.complete(key, result)
+        return {**payload, "integration": {"result": result, "duplicate": False,
+                                           "key": key}}
+
+    @staticmethod
+    def key_for(payload: dict[str, Any]) -> str:
+        """From what the call is, so a retry produces the same key."""
+        body = json.dumps(
+            {k: v for k, v in payload.items() if k != "idempotency_key"},
+            sort_keys=True, default=str,
+        )
+        return hashlib.sha256(body.encode()).hexdigest()[:32]

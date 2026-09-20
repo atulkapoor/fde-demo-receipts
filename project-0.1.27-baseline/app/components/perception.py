@@ -1,0 +1,92 @@
+"""perception: ocr-pipeline, via plain-python.
+
+OCR pipeline: input_format == scanned_documents
+
+Pixels to text, with everything that implies.
+
+**The per-page error rate is the system's ceiling.** Measure it before promising
+anything downstream, because no later component recovers a character that was
+never read. A pipeline that reports 94% extraction accuracy and then quotes 97%
+end-to-end is quoting a number that cannot exist.
+
+Confidence per region is kept rather than averaged away. A page that is clean
+except for the one box holding the account number is not a good page, and a
+single page-level score says it is.
+
+This is the contract; a real engine goes behind it. The choice among engines is
+a decision in its own right -- one runs on a CPU and in an air gap, others need
+a GPU and read tables far better -- and it belongs in the registry rather than
+hard-coded here.
+"""
+
+from __future__ import annotations
+
+from collections.abc import Callable
+from typing import Any
+
+from app.contract import RefusedInput
+from app.shapes import require
+
+# Below this, a region is not trusted and is queued for a human instead.
+MIN_REGION_CONFIDENCE = 0.75
+
+
+class Perception:
+    """Parser, as ocr-pipeline."""
+
+    interface = "Parser"
+    approach = "ocr-pipeline"
+    stack = "plain-python"
+
+    def __init__(
+        self,
+        engine: Callable[[Any], list[dict[str, Any]]] | None = None,
+        critical_regions: set[str] | None = None,
+    ) -> None:
+        self._engine = engine
+        # Regions where a low-confidence read matters regardless of the page
+        # average -- an account number, a total, a date.
+        self.critical = critical_regions or set()
+
+    def run(self, payload: dict[str, Any]) -> dict[str, Any]:
+        source = require(payload, "pages", list, non_empty=True)
+        if self._engine is None:
+            # Not a lambda returning nothing: an unwired engine reporting a
+            # perfect clean share is the runbook's first number, lying.
+            raise NotImplementedError(
+                "wire engine= to an OCR engine (the profile decides which); "
+                "this scaffold does not read pages"
+            )
+        pages = []
+        for position, page in enumerate(source):
+            if not isinstance(page, dict):
+                raise RefusedInput(f"pages[{position}] is not an object")
+            regions = self._engine(page)
+            weak = [r for r in regions if r.get("confidence", 0) < MIN_REGION_CONFIDENCE]
+            critical_weak = [r for r in weak if r.get("name") in self.critical]
+            # A clean page with one bad box is not a clean page. With no
+            # critical regions declared, every weak region is somebody's
+            # problem rather than nobody's.
+            needs_human = bool(critical_weak) or (not self.critical and bool(weak))
+
+            pages.append({
+                "id": str(page.get("id", position)),
+                "text": "\n".join(r.get("text", "") for r in regions),
+                "regions": regions,
+                "weak_regions": [r.get("name") for r in weak],
+                "usable": not needs_human,
+                "needs_human": needs_human,
+            })
+
+        usable = [p for p in pages if p["usable"]]
+        return {
+            **payload,
+            "pages": pages,
+            # The record every later step reads: one per page.
+            "records": [{"id": p["id"], "text": p["text"], "raw": {},
+                         "losses": p["weak_regions"], "usable": p["usable"]}
+                        for p in pages],
+            # The ceiling. Nothing downstream exceeds it.
+            "clean_share": len(usable) / len(pages),
+            "verify_queue": [p["id"] for p in pages if p["needs_human"]],
+        }

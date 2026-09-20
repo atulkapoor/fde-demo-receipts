@@ -1,0 +1,49 @@
+# Chosen because this is what the team already operates. They maintain
+# it after the engagement ends, and the tool they cannot maintain is
+# the one that rots.
+- name: Deploy the application
+  hosts: app
+  become: true
+  vars:
+    release: "{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
+  tasks:
+    - name: Create the service account
+      ansible.builtin.user:
+        name: app
+        system: true
+        shell: /usr/sbin/nologin
+        home: /opt/app
+    - name: Stage the release (the package, not the working tree)
+      ansible.builtin.copy:
+        src: '../../{{ item }}'
+        dest: '/opt/app/releases/{{ release }}/'
+        owner: app
+      loop: [app, evals, pyproject.toml]
+    - name: Interpreter the unit's ExecStart= names
+      ansible.builtin.pip:
+        name: '/opt/app/releases/{{ release }}'
+        virtualenv: '/opt/app/releases/{{ release }}/.venv'
+        virtualenv_command: python3 -m venv
+    - name: Point `current` at this release (what the unit runs; what rollback moves)
+      ansible.builtin.file:
+        src: '/opt/app/releases/{{ release }}'
+        dest: /opt/app/current
+        state: link
+    - name: Environment file the unit reads (never overwrites an edited one)
+      ansible.builtin.copy:
+        src: ../env.example
+        dest: /etc/app/env
+        mode: '0640'
+        force: false
+    - name: Install the service unit
+      ansible.builtin.copy:
+        src: ../systemd/app.service
+        dest: /etc/systemd/system/app.service
+      notify: restart app
+  handlers:
+    - name: restart app
+      ansible.builtin.systemd:
+        name: app
+        state: restarted
+        daemon_reload: true
+        enabled: true

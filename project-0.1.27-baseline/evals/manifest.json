@@ -1,0 +1,24 @@
+{
+  "baseline_error_rate": 0.03,
+  "holdout": {
+    "cases": 30,
+    "note": "kept with the engagement, never shipped; fde implement --holdout must be given the file with this digest",
+    "sha256": "07c866036535eb8140f8072d435790ee870904ba50c07443bf541b98d527ccb9"
+  },
+  "holdout_share": 0.3,
+  "layers": {
+    "adversarial": {
+      "cases": 10,
+      "sha256": "03e1772d7c97aad860300c43de5b82e67ef2220b6ca8e85b2416b537831ed9d2"
+    },
+    "edge_case": {
+      "cases": 7,
+      "sha256": "44498ff2fb8a9166c5fb2820703c8d26f2b7c0744e52c6a9ff89a44a2ef2999c"
+    },
+    "golden": {
+      "cases": 77,
+      "sha256": "68a65b699c0f58ac2f98c3c25c85437d615c7d5ad73a4f397d75a8deff145c7f"
+    }
+  },
+  "split_seed": 0
+}

@@ -1,0 +1,84 @@
+{
+  "project": "/Users/atulkapoor/Documents/fde-demo-receipts/project",
+  "verdict": "1 of 7 measured properties hold",
+  "rows": [
+    {
+      "property": "own tests",
+      "measured": "no tests/ directory",
+      "holds": false,
+      "why": "the deliverable ships none"
+    },
+    {
+      "property": "lint",
+      "measured": "[*] 1 fixable with the `--fix` option (6 hidden fixes can be enabled with the `--unsafe-fixes` option).",
+      "holds": false,
+      "why": ""
+    },
+    {
+      "property": "exam",
+      "measured": "the harness wrote no report",
+      "holds": false,
+      "why": "usage: harness.py [-h] [--min-score MIN_SCORE] [--cases CASES]\nharness.py: error: unrecognized arguments: --report /Users/atulkapoor/Documents/fde-demo-receipts/project/scorecard-harness.json --allow-uncalibrated\n"
+    },
+    {
+      "property": "exam record",
+      "measured": "no evals/manifest.json",
+      "holds": false,
+      "why": "the split seed, share and digests of every eval file"
+    },
+    {
+      "property": "holdout",
+      "measured": "the harness wrote no report",
+      "holds": false,
+      "why": ""
+    },
+    {
+      "property": "external exam",
+      "measured": "not given",
+      "holds": null,
+      "why": "a second out-of-sample set (--external <jsonl>), e.g. the client's own later export; a component that memorises the holdout file scores 100% there and single digits here"
+    },
+    {
+      "property": "edge",
+      "measured": "no app/service.py",
+      "holds": null,
+      "why": ""
+    },
+    {
+      "property": "risk register: scaffolds",
+      "measured": "none",
+      "holds": true,
+      "why": "a scaffold raises on use; a green exam cannot include it"
+    },
+    {
+      "property": "risk register: gates waived",
+      "measured": "none",
+      "holds": null,
+      "why": "reported, not judged: a waiver is the engagement's decision, on the record"
+    },
+    {
+      "property": "risk register: asserted facts",
+      "measured": "0 boundary-bearing fact(s) asserted",
+      "holds": null,
+      "why": "reported: confirm each with the client before the decisions resting on it stand"
+    },
+    {
+      "property": "environment",
+      "measured": "no deploy/env.example",
+      "holds": false,
+      "why": ""
+    },
+    {
+      "property": "training path",
+      "measured": "none in this build",
+      "holds": null,
+      "why": ""
+    },
+    {
+      "property": "regression from the last card",
+      "measured": "no previous card",
+      "holds": null,
+      "why": ""
+    }
+  ]
+}

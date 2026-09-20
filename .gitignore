@@ -10,3 +10,16 @@ engagements/receipts/artifacts/pairs.jsonl
 engagements/receipts/artifacts/holdout.jsonl
 baseline.yaml
 project/var/
+project-0.1.27/evals/golden.jsonl
+project-0.1.27/evals/edge_case.jsonl
+project-0.1.27/evals/adversarial.jsonl
+project-0.1.27/.implement/
+project-0.1.27/harness-report.json
+project-0.1.27/holdout-report.json
+project-0.1.27/scorecard-state/
+project-0.1.27/var/
+project-0.1.27-baseline/evals/golden.jsonl
+project-0.1.27-baseline/evals/edge_case.jsonl
+project-0.1.27-baseline/evals/adversarial.jsonl
+project-0.1.27-baseline/scorecard-state/
+engagements/receipts/.last-out
