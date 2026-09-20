@@ -6,3 +6,11 @@ security_review:
     no credentials, boundary asserted in emitted code; a client engagement gets the
     client''s security function'
   at: '2026-09-10'
+overrides:
+- gate: outcome_contract
+  reason: 'no client owns an outcome: a public demonstration on a public receipt dataset;
+    the baseline''s business metric is stated, and nobody has set a target'
+  at: '2026-09-20'
+  against: 'Nobody has agreed which number this system exists to move: no outcome
+    contract was recorded.'
+  by: the author

@@ -115,6 +115,14 @@ recorded: start -> pilot (lifecycle.jsonl)
 
 The scorecard's holdout row holds (56.7% on 30 cases, above its majority guard), so the record reaches pilot -- while the implement loop's own bar of 85% was never met and the loop ended red. Two rules, two answers, both on the record: the card asks whether the out-of-sample rows hold at all, the loop asks whether they clear the engagement's bar. Production needs a deployment attested by name.
 
+On 0.1.31 the eighth gate, the outcome contract (who owns the number the
+system exists to move, its value today, its target, how it is measured, by
+when), is waived on this record with the reason where a reader will find
+it: no client owns an outcome in a public demonstration, and nobody has set
+a target. `fde debt engagements/receipts` ([`debt.txt`](debt.txt)) lists what
+the engagement rests on that nobody has settled: 10 items: five environment facts said and never measured, two roles never heard, one standing waiver, and two entries with nobody's name on them. None blocks the
+build or production; the waivers age from today.
+
 ## Reproduce it
 
 Everything regenerates from public sources — no data is redistributed here.
