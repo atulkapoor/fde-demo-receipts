@@ -78,6 +78,43 @@ digest, the request contract, a booted edge that refuses what it should,
 and a loop whose fence now covers the tests and the contract and whose
 own-tests floor is what stopped the last round.
 
+## Where it stands (fde 0.1.28)
+
+`fde stage` computes the engagement's stage off the record -- never declared --
+and appended the first transition to
+[`engagements/receipts/lifecycle.jsonl`](engagements/receipts/lifecycle.jsonl):
+
+```
+receipts: pilot
+
+  ok discovery
+       ok a problem statement: Extract company, date, address and total from scanned retail receipts; 626 recei...
+  ok validation
+       ok the gates pass or are waived on the record: all pass
+       ok the exam is seeded from the client's pairs: 120 pairs
+       ok a holdout the delivery never ships: 30 cases
+       ok data access attested: sqlite receipts.db: SELECT returned 626 real rows (SROIE receipts, id/company/da
+  ok prototype
+       ok a build with its exam record: project-0.1.27
+  ok pilot
+       ok a scorecard on record: scorecard.json
+       ok the out-of-sample rows hold: 56.7% on 30 cases
+       ok the edge answers a valid request: 200 {"company": "SYL ROASTED DELIGHTS SDN. BHD.", "date": "06/03
+  -- production
+       NO a deployment on record: none: fde deployed <eng> --note
+       ok no open incident: none open
+  -- adoption
+       NO an adoption figure measured in the field: none: fde outcome <eng> --metric adoption=<share>
+  -- retrospective
+       NO a retrospective captured as a case: none: fde retro
+
+to reach production: a deployment on record -- none: fde deployed <eng> --note
+
+recorded: start -> pilot (lifecycle.jsonl)
+```
+
+The scorecard's holdout row holds (56.7% on 30 cases, above its majority guard), so the record reaches pilot -- while the implement loop's own bar of 85% was never met and the loop ended red. Two rules, two answers, both on the record: the card asks whether the out-of-sample rows hold at all, the loop asks whether they clear the engagement's bar. Production needs a deployment attested by name.
+
 ## Reproduce it
 
 Everything regenerates from public sources — no data is redistributed here.
