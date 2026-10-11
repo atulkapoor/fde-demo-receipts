@@ -123,6 +123,15 @@ a target. `fde debt engagements/receipts` ([`debt.txt`](debt.txt)) lists what
 the engagement rests on that nobody has settled: 10 items: five environment facts said and never measured, two roles never heard, one standing waiver, and two entries with nobody's name on them. None blocks the
 build or production; the waivers age from today.
 
+**The decision brief.** `fde report` (0.1.46) writes the record as one
+document for a reader who never sees the terminal -- the problem as
+stated, the stage, what is known and who said it, the design with its
+reasons and rejections, what it rests on and what was waived, the debt,
+the stop conditions, the next decision:
+[`engagements/receipts/artifacts/REPORT.md`](engagements/receipts/artifacts/REPORT.md),
+written 2026-10-12 from the record as it stands.
+
+
 ## Reproduce it
 
 Everything regenerates from public sources — no data is redistributed here.
